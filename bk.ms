@@ -11,6 +11,11 @@
 .ce
 \l'20'
 ..
+.\" *** Tasklist symbols (unchecked and crossed box, respecively) ***
+.char \[u2610] \f[FSerR]\[u2610]\f[]
+.char \[u2612] \f[FSerR]\[u2611]\f[]
+.\".char \[u2610] \s[+3]\[sq]\s[0]
+.\".char \[u2612] \[OK]
 $if(highlighting-macros)$
 .\" * Syntax highlighting macros
 $highlighting-macros$
@@ -27,11 +32,12 @@ $endif$
 .\" header/footer width
 .nr LT \n[LL]
 .\" point size
-.nr PS $if(pointsize)$$pointsize$$else$10p$endif$
+.nr PS $if(pointsize)$$pointsize$$else$11p$endif$
 .\" line height
-.nr VS $if(lineheight)$$lineheight$$else$12p$endif$
-.\" font family: A, BM, H, HN, N, P, T, ZCM
-.fam $if(fontfamily)$$fontfamily$$else$P$endif$
+.nr VS $if(lineheight)$$lineheight$$else$13p$endif$
+.\" font family: A, BM, H, HN, N, P, T, etc.
+.ds MAINFONT $if(fontfamily)$$fontfamily$$else$NewCM$endif$
+.fam $if(fontfamily)$$fontfamily$$else$NewCM$endif$
 .\" paragraph indent
 .nr PI $if(indent)$$indent$$else$0m$endif$
 .\" interparagraph space
@@ -46,6 +52,24 @@ $if(papersize)$
 $endif$
 $if(toc-title)$
 .ds TOC $toc-title$
+$endif$
+$if(abstract-title)$
+.ds ABSTRACT $abstract-title$
+$endif$
+$if(icelandic-dates)$
+.ds MONTH1 janúar
+.ds MONTH2 febrúar
+.ds MONTH3 mars
+.ds MONTH4 apríl
+.ds MONTH5 maí
+.ds MONTH6 júní
+.ds MONTH7 júlí
+.ds MONTH8 ágúst
+.ds MONTH9 september
+.ds MONTH10 október
+.ds MONTH11 nóvember
+.ds MONTH12 desember
+.ds DY \n[dy]. \*[MO] \n[year]
 $endif$
 .\" color used for strikeout
 .defcolor strikecolor rgb 0.7 0.7 0.7
@@ -72,6 +96,13 @@ $endif$
 .\" PDF metadata
 .pdfinfo /Title "$title-meta$"
 .pdfinfo /Author "$author-meta$"
+$if(cover-page)$
+.RP$if(suppress-first-page-header)$ no$endif$
+$if(cover-page-no-date)$
+.ND ""
+$endif$
+$endif$
+.\" Adjusting can be l, r, c, b|n - meaning left, right, center, justified
 $if(adjusting)$
 .ad $adjusting$
 $endif$
