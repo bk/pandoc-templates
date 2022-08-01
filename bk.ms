@@ -21,10 +21,13 @@ $if(highlighting-macros)$
 $highlighting-macros$
 $endif$
 .\" **** Settings *************************************************
+.\" NOTE: The *ORIG variables simplify some filters
 .\" text width
 .nr LL $if(text-width)$$text-width$$else$16c$endif$
+.nr LLORIG \n[LL]
 .\" left margin (Note: right margin is implicit)
 .nr PO $if(margin-left)$$margin-left$$else$2.5c$endif$
+.nr POORIG \n[PO]
 .\" top margin
 .nr HM $if(margin-top)$$margin-top$$else$2.5c$endif$
 .\" bottom margin
@@ -40,6 +43,7 @@ $endif$
 .fam $if(fontfamily)$$fontfamily$$else$NewCM$endif$
 .\" paragraph indent
 .nr PI $if(indent)$$indent$$else$0m$endif$
+.nr PIORIG \n[PI]
 .\" interparagraph space
 .nr PD $if(paragraph-spacing)$$paragraph-spacing$$else$0.4v$endif$
 .\" footnote width
