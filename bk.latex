@@ -345,7 +345,7 @@ $endif$
 %%%% BEGIN bk-specific additions -- rest is identical to default.latex as of Pandoc 2.19
 %%%% (except for default fontsize of 11pt)
 \usepackage{unicode-math}
-\usepackage{framed}
+\usepackage{tcolorbox}
 \usepackage{sectsty}
 \sectionfont{\sffamily\huge}
 \subsectionfont{\sffamily\LARGE}
@@ -365,14 +365,16 @@ $endif$
   \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}\@afterindentfalse\@afterheading}
 \fi
 \makeatother
-% Special environments for fenced divs below
-\newenvironment{Warning}[1][Viðvörun:]{%
-  \vspace{.5\baselineskip}
-  \noindent\hspace{.1\textwidth}\begin{minipage}[c]{.8\textwidth}
-  \begin{framed}
-  \textbf{\sffamily\large #1}
-  \noindent }{%
-  \end{framed}\end{minipage}\vspace{.5\baselineskip}}
+% Special environments for fenced divs below.
+% TODO: Add more admonition types.
+\newenvironment{admonition}[2]{%
+  \begin{tcolorbox}[left skip=.1\linewidth, right skip=.1\linewidth, before skip=15pt, after skip=15pt, colback=#1!5!white,colframe=#1!75!black,title={\sffamily\bfseries\large #2}]
+  }{%
+  \end{tcolorbox}}
+\newenvironment{Warning}[1][Viðvörun]{%
+  \begin{admonition}{red}{#1}
+  }{%
+  \end{admonition}}
 %%%% END bk-specific additions
 $for(header-includes)$
 $header-includes$
