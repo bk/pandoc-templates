@@ -73,13 +73,16 @@
            font: font,
            size: fontsize)
   set heading(numbering: sectionnumbering)
+  $if(linkcolor)$
+  show link: set text($linkcolor$);
+  $endif$
 
   if title != none {
-    align(center)[#block(inset: 2em)[
-      #text(weight: "bold", size: 1.5em)[#title]
+    align(center)[#block(inset: 1.75em)[
+      #text(weight: "bold", size: 1.75em,font:"$if(sansfont)$$sansfont$$else$Libertinus Sans$endif$")[#title]
       #(if subtitle != none {
         parbreak()
-        text(weight: "bold", size: 1.25em)[#subtitle]
+        text(weight: "bold", size: 1.25em,font:"$if(sansfont)$$sansfont$$else$Libertinus Sans$endif$")[#subtitle]
       })
     ]]
   }
@@ -89,20 +92,20 @@
     let ncols = calc.min(count, 3)
     grid(
       columns: (1fr,) * ncols,
-      row-gutter: 1.5em,
+      row-gutter: 1.25em,
       ..authors.map(author =>
-          align(center)[
+          text(font:"$if(sansfont)$$sansfont$$else$Libertinus Sans$endif$")[#align(center)[
             #author.name \
             #author.affiliation \
             #author.email
-          ]
+          ]]
       )
     )
   }
 
   if date != none {
     align(center)[#block(inset: 1em)[
-      #date
+      #text(font:"$if(sansfont)$$sansfont$$else$Libertinus Sans$endif$")[#date]
     ]]
   }
 
@@ -193,6 +196,7 @@ $endfor$
 $if(toc)$
 #outline(
   title: auto,
+  indent: $if(toc-indent)$$toc-indent$$else$auto$endif$,
   depth: $toc-depth$
 );
 $endif$
