@@ -12,7 +12,11 @@ $endif$
 $if(fontsize)$
   $fontsize$,
 $else$
+ $if(defaultfontsize)$
+  $defaultfontsize$,
+ $else$
   11pt,
+ $endif$
 $endif$
 $if(papersize)$
   $papersize$paper,
@@ -92,9 +96,7 @@ $if(beamerarticle)$
 \usepackage{beamerarticle} % needs to be loaded first
 $endif$
 \usepackage{amsmath,amssymb}
-$if(linestretch)$
 \usepackage{setspace}
-$endif$
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
@@ -455,6 +457,41 @@ $if(selnolig-langs)$
 \fi
 $endif$
 $endif$
+%%%% BEGIN bk-specific additions -- rest is almost identical to default.latex as of Pandoc 3.3
+%%%% (except for default fontsize of 11pt and default linestretch of 1.15)
+\usepackage{sectsty}
+\sectionfont{\sffamily\huge}
+\subsectionfont{\sffamily\LARGE}
+\subsubsectionfont{\sffamily\Large}
+\paragraphfont{\sffamily\large\raggedleft}
+\subparagraphfont{\sffamily\normalsize\raggedleft}
+\usepackage{unicode-math}
+\usepackage{tcolorbox}
+% Make \paragraph and \subparagraph free-standing, adapted from the block-headings setting.
+% Needs to be after the section font settings above.
+% Add afterindentfalse and afterheading to make them behave more like normal headings.
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}\@afterindentfalse\@afterheading}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}\@afterindentfalse\@afterheading}
+\fi
+\makeatother
+% Special environments for fenced divs below.
+% TODO: Add more admonition types.
+% Sphinx: topic admonition attention caution danger error hint important note seealso tip todo warning deprecated
+\newenvironment{admonition}[2]{%
+  \begin{tcolorbox}[left skip=.1\linewidth, right skip=.1\linewidth, before skip=15pt, after skip=15pt, colback=#1!5!white,colframe=#1!75!black,title={\sffamily\bfseries\large #2}]
+  }{%
+  \end{tcolorbox}}
+\newenvironment{Warning}[1][Viðvörun]{%
+  \begin{admonition}{red}{#1}
+  }{%
+  \end{admonition}}
+%%%% END bk-specific additions
 $for(header-includes)$
 $header-includes$
 $endfor$
@@ -603,6 +640,8 @@ $if(lot)$
 $endif$
 $if(linestretch)$
 \setstretch{$linestretch$}
+$else$
+\setstretch{1.15}
 $endif$
 $if(has-frontmatter)$
 \mainmatter
